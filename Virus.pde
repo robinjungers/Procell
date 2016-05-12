@@ -5,8 +5,8 @@ Basic Entity.
 
 class Virus extends Entity {
   
-  public Virus() {
-    super( random(width), random(height), 35.0 );
+  public Virus( float x, float y ) {
+    super( x, y, 55.0 );
   }
   
   @Override
@@ -15,7 +15,7 @@ class Virus extends Entity {
   }
   
   @Override
-  public void display( PGraphics scene ) {
+  public void displayOn( PGraphics scene ) {   
     scene.pushMatrix();
       scene.translate( super.position.x, super.position.y );
       scene.stroke( 255 );
@@ -23,9 +23,10 @@ class Virus extends Entity {
       scene.noFill();
       scene.ellipse( 0, 0, super.size, super.size );
       for ( int i = 0; i < 3; i++ ) {
-        float radius = 0.2 * noise(i, 0.001*millis(), super.index) * super.size;
-        float angle = map(i, 0.0, 3.0, 0.0, TWO_PI );
-        scene.stroke( 255, 220, 220 );
+        float random = noise(i, 0.001*super.index*millis(), super.index);
+        float radius = 0.2 * random * super.size;
+        float angle = map(i + random - 0.5, 0.0, 3.0, 0.0, TWO_PI );
+        scene.stroke( 255, 200, 200 );
         scene.strokeWeight( 2 );
         scene.ellipse( radius*cos(angle), radius*sin(angle), 0.3*super.size, 0.3*super.size );
       }

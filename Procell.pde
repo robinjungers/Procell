@@ -1,66 +1,86 @@
 PShader lightComputer, lightRenderer;
-PGraphics scene;
+PGraphics scene, actualScene;
+
+PVector sceneSize;
 
 Cell cell;
 ArrayList<Entity> entities;
 
 void setup() {
+  // Window Initializion
   size( 512, 512, P2D );
-  //pixelDensity( displayDensity() );
   frameRate( 60 );
   cursor( CROSS );
-  textureMode(NORMAL);
+  textureMode( NORMAL );
   smooth();
+  sceneSize = new PVector( 3*width, 3*height );
 
-  // SHADERS
+  // Shader loading
   lightComputer = loadShader( "light.compute.glsl" );
   lightRenderer = loadShader( "light.render.glsl" );
+  
+  // Texture buffers initializion
   scene = createGraphics( width, height, P2D );
+  actualScene = createGraphics( width, height, P2D );
 
-  // GAME VARIABLES
+  // Game characters intializion
+  cell = new Cell( 0.5*sceneSize.x, 0.5*sceneSize.y );
   entities = new ArrayList<Entity>();
-  cell = new Cell();
-  for ( int i = 0; i < 5; i++ ) {
-    Virus virus = new Virus();
-    entities.add( (Entity)virus );
+  for ( int i = 0; i < 30; i++ ) {
+    float x = noise( i );
+    float y = noise( x, i );
+    Virus virus = new Virus( x*sceneSize.x, y*sceneSize.y );
+    virus.setReference( (Entity) cell );
+    entities.add( (Entity) virus );
   }
 }
 
 void draw() {
   background( 8, 7, 22 );
-  PVector res = new PVector(width, height);
-  lightComputer.set( "resolution", res );
-  lightComputer.set( "sharpness", 1.0 );
-  lightRenderer.set( "resolution", res );
   
-  // DRAWINGS
+  // Uniform initialization
+  PVector res = new PVector( width, height );
+  lightComputer.set( "resolution", res );
+  lightRenderer.set( "resolution", res );
+  // Change value for faster/sharper shadows
+  // Big values will make shaders miss thiner strokes
+  lightComputer.set( "sharpness", 2.0 );
+  lightRenderer.set( "lightIntensity", cell.getLightIntensity() );
+  
+  // Scene construction
   scene.beginDraw();
   scene.clear();
   scene.translate( width/2-cell.getPosition().x, height/2-cell.getPosition().y );
   for ( int i = 0; i < entities.size(); i++ ) {
-    entities.get(i).update();
-    entities.get(i).display( scene );
+    Entity e = entities.get(i);
+    if ( e.needsToBeDrawn() ) {
+      e.update();
+      e.displayOn( scene );
+    }
   }
   scene.endDraw();
   
-  PGraphics actualScene = createGraphics( width, height, P2D );
   actualScene.beginDraw();
+  actualScene.clear();
   actualScene.image( scene, 0, 0 );
   actualScene.endDraw();
   
-  // SHADOW CASTING
+  // Shadow casting
   scene.beginDraw();
   scene.filter( lightComputer );
   scene.filter( lightRenderer );
   scene.endDraw();
+  
+  // Shadow buffer drawing
   image( scene, 0, 0 );
+  
+  // Scene buffer drawing
   image( actualScene, 0, 0 );
   
-  // MAIN CHARACTER
-  lightRenderer.set( "lightIntensity", cell.getLightIntensity() );
+  // Player drawing
   cell.update();
   cell.display();
   
-  // INFO
+  // Extra infos
   text( frameRate, 20, 20 );
 } 

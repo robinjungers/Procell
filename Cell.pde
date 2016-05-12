@@ -7,10 +7,10 @@ class Cell extends Entity {
   
   private PVector lightIntensity;
   
-  public Cell() {
-    super( width/2, height/2, 20.0 );
+  public Cell( float x, float y ) {
+    super( x, y, 20.0 );
     super.setLightCasting( true );
-    lightIntensity = new PVector(0.8,0.8,0.8);
+    lightIntensity = new PVector( 0.8, 0.8, 0.8 );
   }
   
   public PVector getLightIntensity() {

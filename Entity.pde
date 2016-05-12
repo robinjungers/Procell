@@ -11,14 +11,26 @@ public class Entity {
   private PVector destination;
   private float size;
   private boolean castsShadows;
+  private Entity reference;
   
   public Entity( float x, float y, float size ) {
-    this.index = random(10);
+    this.index = random(1);
     this.position = new PVector( x, y );
     this.velocity = new PVector( 0, 0 );
     this.destination = new PVector( x, y );
     this.size = size;
     castsShadows = false;
+  }
+  
+  public void setReference( Entity other ) {
+    this.reference = other;
+  }
+  
+  public boolean needsToBeDrawn() {
+    if ( this.reference != null ) {
+      if ( this.position.dist( this.reference.position ) > 0.71*width + this.size ) return false;
+    }
+    return true;
   }
   
   public void setLightCasting( boolean castsLight ) {
@@ -39,6 +51,6 @@ public class Entity {
   
   public void update() {}
   
-  public void display( PGraphics scene ) {}
+  public void displayOn( PGraphics scene ) {}
   
 }
