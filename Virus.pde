@@ -6,7 +6,7 @@ Basic Entity.
 class Virus extends Entity {
   
   public Virus( float x, float y ) {
-    super( x, y, 55.0 );
+    super( x, y, 45.0 );
   }
   
   @Override
@@ -23,7 +23,7 @@ class Virus extends Entity {
       scene.noFill();
       scene.ellipse( 0, 0, super.size, super.size );
       for ( int i = 0; i < 3; i++ ) {
-        float random = noise(i, 0.001*super.index*millis(), super.index);
+        float random = noise(i, 0.001*super.k*millis(), super.k);
         float radius = 0.2 * random * super.size;
         float angle = map(i + random - 0.5, 0.0, 3.0, 0.0, TWO_PI );
         scene.stroke( 255, 200, 200 );

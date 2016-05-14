@@ -9,8 +9,16 @@ class Cell extends Entity {
   
   public Cell( float x, float y ) {
     super( x, y, 20.0 );
-    super.setLightCasting( true );
     lightIntensity = new PVector( 0.8, 0.8, 0.8 );
+  }
+  
+  public void move( float x, float y ) {
+    super.velocity.set( x, y );
+    super.velocity.mult( 0.01 );
+  }
+  
+  public PVector getPosition() {
+    return super.position;
   }
   
   public PVector getLightIntensity() {
@@ -22,14 +30,12 @@ class Cell extends Entity {
   
   @Override
   public void update() {
-    super.velocity.set( mouseX-width/2, mouseY-height/2 );
-    super.velocity.mult( 0.01 );
-    super.applyPhysics();
+    super.position.add( super.velocity );
   }
   
-  public void display() {
+  public void displayAt( PVector position, PVector size ) {
     pushMatrix();
-      translate( width/2, height/2 );
+      translate( position.x + size.x/2, position.y + size.y/2 );
       noStroke();
       fill( 255 );
       ellipse( 0, 0, super.size, super.size );
