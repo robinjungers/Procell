@@ -9,12 +9,12 @@ class Cell extends Entity {
   
   public Cell( float x, float y ) {
     super( x, y, 20.0 );
-    lightIntensity = new PVector( 0.8, 0.8, 0.8 );
+    this.lightIntensity = new PVector( 0.8, 0.8, 0.8 );
   }
   
-  public void move( float x, float y ) {
-    super.velocity.set( x, y );
-    super.velocity.mult( 0.01 );
+  public void move( float x, float y) {
+    super.velocity.set(x, y );
+    super.velocity.mult( super.velocityCapacity * 0.01 );
   }
   
   public PVector getPosition() {

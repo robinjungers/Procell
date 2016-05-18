@@ -11,7 +11,15 @@ public class Entity {
   private PVector velocity;
   private PVector destination;
   private float size;
+  private float velocityCapacity;
   
+  protected void setSize(float n){
+   this.size = n; 
+  }
+  
+  public float getSize(){
+   return this.size; 
+  }
   private Entity reference;
   private ArrayList<Entity> surroundings;
   
@@ -21,7 +29,8 @@ public class Entity {
     this.velocity = new PVector( 0, 0 );
     this.destination = new PVector( x, y );
     this.size = size;
-    surroundings = new ArrayList<Entity>();
+    this..surroundings = new ArrayList<Entity>();
+    this.velocityCapacity = 1.0;
   }
   
   // Set an entity to always consider
@@ -37,12 +46,12 @@ public class Entity {
         this.surroundings.add( e );
       }
     }
-    if ( this.reference != null ) {
-      Entity e = this.reference;
-      if ( this.position.dist( e.position ) < this.size/2 + e.size/2 ) {
-        this.surroundings.add( e );
-      }
-    }
+   // if ( this.reference != null ) {
+    //  Entity e = this.reference;
+     // if ( this.position.dist( e.position ) < this.size/2 + e.size/2 ) {
+     //   this.surroundings.add( e );
+     // }
+   // }
   }
   
   // Check if visible
