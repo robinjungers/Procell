@@ -1,9 +1,12 @@
+Game game;
+
+TwitterReader twitter;
+
 PShader lightComputer, lightRenderer;
 PGraphics background, shadows, scene;
 
 Cell cell;
 ArrayList<Entity> entities;
-
 
 PVector sceneSize;
 PVector framePosition;
@@ -11,19 +14,23 @@ PVector frameSize;
 
 void setup() {
   // Window Initializion
-  size( 712, 612, P2D );
+  size( 512, 512, P2D );
   frameRate( 60 );
   cursor( CROSS );
   textureMode( NORMAL );
   smooth();
+  
+  // Game launching variables
+  game = new Game();
+  twitter = new TwitterReader();
 
   // Shader loading
   lightComputer = loadShader( "light.compute.glsl" );
   lightRenderer = loadShader( "light.render.glsl" );
   
   // Frame initialization
-  framePosition = new PVector( 100, 50 );
-  frameSize = new PVector( 512, 512 );
+  framePosition = new PVector( 0, 0 );
+  frameSize = new PVector( width, height );
   
   // Frame buffers initialization
   background = createGraphics( (int) frameSize.x, (int) frameSize.y, P2D );
@@ -34,38 +41,16 @@ void setup() {
   // Game characters intializion
   cell = new Cell( 0.5*sceneSize.x, 0.5*sceneSize.y );
   entities = new ArrayList<Entity>();
-  for ( int i = 0; i < 10; i++ ) {
-    float x = noise( i );
-    float y = noise( x, i );
-    Virus virus = new Virus( x*sceneSize.x, y*sceneSize.y );
-    virus.setReference( (Entity) cell );
-    entities.add( (Entity) virus );
-  }
-  for ( int i = 10; i < 20; i++ ) {
-    float x = noise( i );
-    float y = noise( x, i );
-    Microbe microbe = new Microbe( x*sceneSize.x, y*sceneSize.y );
-    microbe.setReference( (Entity) cell );
-    entities.add( (Entity) microbe );
-  }
-  for ( int i = 20; i < 30; i++ ) {
-    float x = noise( i );
-    float y = noise( x, i );
-    Bacteria bacteria = new Bacteria( x*sceneSize.x, y*sceneSize.y );
-    bacteria.setReference( (Entity) cell );
-    entities.add( (Entity) bacteria );
-  }
-  for ( int i = 30; i < 40; i++ ) {
-    float x = noise( i );
-    float y = noise( x, i );
-    Grower grower = new Grower( x*sceneSize.x, y*sceneSize.y );
-    grower.setReference( (Entity) cell );
-    entities.add( (Entity) grower );
-  }
 }
 
 void draw() {
   background( 255 );
+  
+  // Menu if needed
+  if ( !game.isReady() ) {
+    game.displayMenu();
+    return;
+  }
   
   // Uniform initialization
   PVector res = new PVector( frameSize.x, frameSize.y );
@@ -88,6 +73,7 @@ void draw() {
   scene.translate( scene.width/2-cell.getPosition().x, scene.height/2-cell.getPosition().y );
   for ( Entity e: entities ) {
     if ( e.isOnScreen( frameSize ) ) {
+      e.setReference( cell );
       e.setSurroundings( entities );
       e.update();
       e.displayOn( scene );
@@ -116,7 +102,18 @@ void draw() {
   cell.move( mouseX-width/2, mouseY-height/2 );
   cell.update();
   cell.displayAt( framePosition, frameSize );
+}
+
+void keyPressed() {
+  if ( game.isReady() ) return;
   
-  // Extra infos
-  text( frameRate, 20, 20 );
-} 
+  if ( key == BACKSPACE ) {
+    game.backspaceTopicString();
+  } else if ( key == ENTER || key == RETURN ) {
+    game.pushTopicTo( twitter );
+    twitter.buildEntities( entities );
+  } else {
+    game.addToTopicString( key );
+  }
+  
+}

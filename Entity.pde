@@ -5,7 +5,7 @@ All classes will inherit from Entity.
 
 public class Entity {
   
-  private float k; // Special randomized parameter
+  protected float k; // Special randomized parameter
   
   protected PVector position;
   protected PVector velocity;
@@ -13,13 +13,8 @@ public class Entity {
   protected float size;
   protected float velocityCapacity;
   
-  protected void setSize(float n){
-   this.size = n; 
-  }
-  
-  public float getSize(){
-   return this.size; 
-  }
+  protected String speech;
+
   protected Entity reference;
   protected ArrayList<Entity> surroundings;
   
@@ -31,6 +26,12 @@ public class Entity {
     this.size = size;
     this.surroundings = new ArrayList<Entity>();
     this.velocityCapacity = 1.0;
+    this.speech = "";
+  }
+  
+  // Set sentance to say
+  public void setSpeech( String speech ) {
+    this.speech = speech;
   }
   
   // Set an entity to always consider
@@ -46,12 +47,6 @@ public class Entity {
         this.surroundings.add( e );
       }
     }
-   // if ( this.reference != null ) {
-    //  Entity e = this.reference;
-     // if ( this.position.dist( e.position ) < this.size/2 + e.size/2 ) {
-     //   this.surroundings.add( e );
-     // }
-   // }
   }
   
   // Check if visible
@@ -73,7 +68,7 @@ public class Entity {
     this.position.add( this.velocity );
   }
   
-  public void update() {}
+  public void update() {};
   
   public void displayOn( PGraphics scene ) {}
   

@@ -13,12 +13,12 @@ class Cell extends Entity {
   }
   
   public void move( float x, float y) {
-    super.velocity.set(x, y );
-    super.velocity.mult( super.velocityCapacity * 0.01 );
+    this.velocity.set(x, y );
+    this.velocity.mult( this.velocityCapacity * 0.01 );
   }
   
   public PVector getPosition() {
-    return super.position;
+    return this.position;
   }
   
   public PVector getLightIntensity() {
@@ -30,15 +30,15 @@ class Cell extends Entity {
   
   @Override
   public void update() {
-    super.position.add( super.velocity );
+    this.position.add( this.velocity );
   }
-  
+    
   public void displayAt( PVector position, PVector size ) {
     pushMatrix();
       translate( position.x + size.x/2, position.y + size.y/2 );
       noStroke();
       fill( 255 );
-      ellipse( 0, 0, super.size, super.size );
+      ellipse( 0, 0, this.size, this.size );
     popMatrix();
   }
   

@@ -18,32 +18,32 @@ class Virus extends Entity {
   
   @Override
   public void update() {
-    if ( this.position.dist( super.reference.position ) < this.size ) {
+    if ( this.position.dist( this.reference.position ) < this.size/2 ) {
       float agitation = map(this.reference.position.dist(this.position), 0., this.size, 1., 3.) ;
       this.excitement = Animator.ease( this.excitement, min(agitation, 3), 0.1);
       this.destructCountDown += 1;
       if(destructCountDown >= 40){
-        this.nucleusSize = 0.;
+        this.nucleusSize = 0.001;
         this.destructCountDown = 0;
       }
     } else {
       this.excitement = Animator.ease( this.excitement, 1.0, 5 );
       this.nucleusSize = Animator.ease( this.nucleusSize, 0.3 * this.size, 0.1 );
     }
-    super.applyPhysics();
+    this.applyPhysics();
   }
   
   @Override
   public void displayOn( PGraphics scene ) {   
     scene.pushMatrix();
-      scene.translate( super.position.x, super.position.y );
+      scene.translate( this.position.x, this.position.y );
       scene.stroke( 255 );
       scene.strokeWeight( 3 );
       scene.noFill();
-      scene.ellipse( 0, 0, super.size, super.size );
+      scene.ellipse( 0, 0, this.size, this.size );
       for ( int i = 0; i < 3; i++ ) {
-        float random = noise(i, this.excitement*0.001*super.k*millis(), super.k);
-        float radius = this.excitement * 0.2 * random * super.size;
+        float random = noise(i, this.excitement*0.001*this.k*millis(), this.k);
+        float radius = this.excitement * 0.2 * random * this.size;
         float angle = map((i + random - 0.5)*this.excitement, 0.0, 3.0, 0.0, TWO_PI );
         scene.stroke( 255, 200, 200 );
         scene.strokeWeight( 2 );
