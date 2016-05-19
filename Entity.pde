@@ -7,13 +7,21 @@ public class Entity {
   
   private float k; // Special randomized parameter
   
-  private PVector position;
-  private PVector velocity;
-  private PVector destination;
-  private float size;
+  protected PVector position;
+  protected PVector velocity;
+  protected PVector destination;
+  protected float size;
+  protected float velocityCapacity;
   
-  private Entity reference;
-  private ArrayList<Entity> surroundings;
+  protected void setSize(float n){
+   this.size = n; 
+  }
+  
+  public float getSize(){
+   return this.size; 
+  }
+  protected Entity reference;
+  protected ArrayList<Entity> surroundings;
   
   public Entity( float x, float y, float size ) {
     this.k = random(1);
@@ -21,7 +29,8 @@ public class Entity {
     this.velocity = new PVector( 0, 0 );
     this.destination = new PVector( x, y );
     this.size = size;
-    surroundings = new ArrayList<Entity>();
+    this.surroundings = new ArrayList<Entity>();
+    this.velocityCapacity = 1.0;
   }
   
   // Set an entity to always consider
@@ -37,12 +46,12 @@ public class Entity {
         this.surroundings.add( e );
       }
     }
-    if ( this.reference != null ) {
-      Entity e = this.reference;
-      if ( this.position.dist( e.position ) < this.size/2 + e.size/2 ) {
-        this.surroundings.add( e );
-      }
-    }
+   // if ( this.reference != null ) {
+    //  Entity e = this.reference;
+     // if ( this.position.dist( e.position ) < this.size/2 + e.size/2 ) {
+     //   this.surroundings.add( e );
+     // }
+   // }
   }
   
   // Check if visible
