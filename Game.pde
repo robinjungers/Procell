@@ -1,3 +1,19 @@
+/**
+ * Entity is the class representing a cellular entity on the screen.
+ * <p>
+ * An entity of Procell's game is characterized by the next information :
+ * <ul>
+ * <li> A position with x and y coordonates.
+ * <li> A velocity permitting the entity to move.
+ * <li> A size, depending on which the cell will be small or big.
+ * <li> A velocity capacity that permits to change the velocity during interactions.
+ * <li> A speech which will contain the tweet information to load.
+ * <li> A reference referencing to the player's Cell.
+ * <li> A list of the surroundings entities with who the entity will interact (collisions).
+ * </ul>
+ *
+*/
+
 public class Game {
   
   private boolean isReady;
