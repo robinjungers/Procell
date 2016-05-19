@@ -14,7 +14,6 @@
  * </ul>
  * </p>
 */
-
 public class Entity {
  
   /**

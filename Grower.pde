@@ -1,14 +1,41 @@
-/*
-Grower class.
- Basic Entity.
- */
-
+/**
+ * Grower is a undertype of Entity.
+ * Therefore, this class inherits of all attributes and methods of Entity
+ * <p>
+ * A Grower is characterized by multiple methods normal entities cannot do.
+*/
 class Grower extends Entity {
+  
+  /**
+  * Entity Constructor.
+  * <p>
+  * When a Grower is constructed, it uses the Entity constructor.
+  * By that, it gives the x and y parameters and uses 40.0 for the size.
+  * </p>
+  *
+  * @param x
+  *          position on the x axe of the Grower cell
+  * @param y
+  *          position on the y axe of the Grower cell
+  */
     public Grower( float x, float y ) {
     super( x, y, 40.0 );
   }
   
-  //grows when the cell is in contact with it
+  /**
+  * Overrides the update() method of Entity
+  * Updates the attributes of the Grower cell.
+  * Grows when the Grower is in contact with the player's cell.
+  * When not, the Grower comes back to its original size.
+  * Then, the method calls the applyPhysics() method to do the rest of interactions (collision, velocity).
+  * Uses an Animator method to animate the growing and ungrowing of the Grower.
+  *
+  * @see Entity#reference
+  * @see Entity#size
+  * @see Entity#velocityCapacity
+  * @see Animator#ease( float from, float to, float step )
+  * @see Entity#applyPhysics()
+  */
   @Override
     public void update() {
     if ( this.position.dist( this.reference.position ) < this.size/2 ) {
