@@ -7,11 +7,11 @@ public class Entity {
   
   private float k; // Special randomized parameter
   
-  private PVector position;
-  private PVector velocity;
-  private PVector destination;
-  private float size;
-  private float velocityCapacity;
+  protected PVector position;
+  protected PVector velocity;
+  protected PVector destination;
+  protected float size;
+  protected float velocityCapacity;
   
   protected void setSize(float n){
    this.size = n; 
@@ -20,8 +20,8 @@ public class Entity {
   public float getSize(){
    return this.size; 
   }
-  private Entity reference;
-  private ArrayList<Entity> surroundings;
+  protected Entity reference;
+  protected ArrayList<Entity> surroundings;
   
   public Entity( float x, float y, float size ) {
     this.k = random(1);
@@ -29,7 +29,7 @@ public class Entity {
     this.velocity = new PVector( 0, 0 );
     this.destination = new PVector( x, y );
     this.size = size;
-    this..surroundings = new ArrayList<Entity>();
+    this.surroundings = new ArrayList<Entity>();
     this.velocityCapacity = 1.0;
   }
   

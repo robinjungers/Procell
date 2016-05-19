@@ -2,7 +2,7 @@
 Bacteria class.
 Basic Entity.
 */
-
+/****/
 class Bacteria extends Entity {
   
   public Bacteria( float x, float y ) {
@@ -22,10 +22,13 @@ class Bacteria extends Entity {
       scene.strokeWeight( 4 );
       scene.noFill();
       scene.beginShape();
-      for ( int i = 0; i < 64; i++ ) {
-        float angle = map(i, 0.0, 31.0, 0.0, TWO_PI );
+      for ( int i = 0; i < 64; i++ ) { 
+        float angle = map(i, 0.0, 31., 0.0, TWO_PI);
         float random = 0.5 + 0.5*noise(0.9*sin(angle), 0.001*super.k*millis(), super.k);
         float radius = 0.5 * random * super.size;
+        Path2D path = new Path2D.Double();
+        path.moveTo(p1.x, p1.y);
+        path.curveTo(pc1.x, pc1.y, pc2.x, pc2.y, p2.x, p2.y);
         scene.vertex( radius*cos(angle), radius*sin(angle) );
       }
       //scene.vertex( -super.size/2, 0 );

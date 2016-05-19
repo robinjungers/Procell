@@ -55,7 +55,7 @@ void setup() {
     bacteria.setReference( (Entity) cell );
     entities.add( (Entity) bacteria );
   }
-  for ( int i = 10; i < 20; i++ ) {
+  for ( int i = 30; i < 40; i++ ) {
     float x = noise( i );
     float y = noise( x, i );
     Grower grower = new Grower( x*sceneSize.x, y*sceneSize.y );
