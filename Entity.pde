@@ -159,6 +159,8 @@ public class Entity {
   * @see Entity#reference
   * @see Entity#position
   * @see Entity#size
+  *
+  * @return boolean if the cell is on screen or not
   */
   public boolean isOnScreen( PVector size ) {
     if ( this.reference != null ) {

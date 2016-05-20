@@ -1,21 +1,71 @@
-/*
-Virus class.
-Basic Entity.
+/**
+ * Virus is a undertype of Entity.
+ * Therefore, this class inherits of all attributes and methods of Entity
+ * <p>
+ * A Virus is characterized by multiple arguments and methods normal entities cannot call.
 */
-
 class Virus extends Entity {
-  
+  /**
+  * The float excitement is the factor of excitation that the nucleus will have.
+  * @see Virus#displayOn( PGraphics scene )
+  * @see Virus#Virus(float x, float y)
+  * @see Virus#update()
+  */
   private float excitement;
-  private int destructCountDown;
-  private float nucleusSize;
   
+  /**
+  * The int destructCountDown is the timer to recreate the nucleus when explosed.
+  * @see Virus#update()
+  * @see Virus#Virus(float x, float y)
+  */
+  private int destructCountDown;
+  
+  /**
+  * The float nucleusSize is the size that the nucleus keep.
+  * @see Virus#Virus(float x, float y)
+  * @see Virus#update()
+  * @see Virus#displayOn( PGraphics scene )
+  */
+  private float nucleusSize;
+ 
+  /**
+  * Virus Constructor.
+  * <p>
+  * When a Virus is constructed, it uses the Entity constructor.
+  * By that, it gives the x and y parameters and uses 45.0 for the size.
+  * </p>
+  *
+  * @param x
+  *          position on the x axe of the Grower cell
+  * @param y
+  *          position on the y axe of the Grower cell
+  */ 
   public Virus( float x, float y ) {
     super( x, y, 45.0 );
     this.excitement = 1.;
     this.destructCountDown = 0;
     this.nucleusSize = 0.3 * this.size;
   }
-  
+
+  /**
+  * Overrides the update() method of Entity
+  * Updates the attributes of the Virus cell.
+  * When the player's cell is nearby, the excitement and agitation of the 3 nucleus increase.
+  * When not, the Virus' nucleus calm down.
+  * If the player's cell excites the 3 nucleus too much, these explose.
+  * They only recreate themselves when the cell is gone.
+  * Then, the method calls the applyPhysics() method to do the rest of interactions (collision, velocity).
+  * Uses an Animator method to animate the growing and ungrowing of the Microbe's hair.
+  *
+  * @see Entity#reference
+  * @see Entity#size
+  * @see Virus#excitement
+  * @see Virus#destructCountDown
+  * @see Virus#nucleusSize
+  * @see Virus#agitation
+  * @see Animator#ease( float from, float to, float step )
+  * @see Entity#applyPhysics()
+  */
   @Override
   public void update() {
     if ( this.position.dist( this.reference.position ) < this.size/2 ) {
@@ -33,6 +83,16 @@ class Virus extends Entity {
     this.applyPhysics();
   }
   
+  /**
+  * Overrides the displayOn( PGraphics scene ) method of Entity
+  * Draws the exterior circle of the cell
+  * Draws the 3 nucleus with a random factor to position them.
+  *
+  * @see Entity#position
+  * @see Entity#size
+  * @see Virus#nucleusSize
+  * @see Virus#excitement
+  */ 
   @Override
   public void displayOn( PGraphics scene ) {   
     scene.pushMatrix();

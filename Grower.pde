@@ -7,7 +7,7 @@
 class Grower extends Entity {
   
   /**
-  * Entity Constructor.
+  * Grower Constructor.
   * <p>
   * When a Grower is constructed, it uses the Entity constructor.
   * By that, it gives the x and y parameters and uses 40.0 for the size.
@@ -47,7 +47,15 @@ class Grower extends Entity {
     }
     this.applyPhysics();
   }
-
+  
+  /**
+  * Overrides the displayOn( PGraphics scene ) method of Entity
+  * Draws the exterior circle of the cell
+  * Draws the nucleus of the cell
+  *
+  * @see Entity#position
+  * @see Entity#size
+  */
   @Override
     public void displayOn( PGraphics scene ) {   
     scene.pushMatrix();
